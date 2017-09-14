@@ -170,26 +170,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var HomePage = (function () {
+    //asyncUsers = this.httpService.getData();
     function HomePage(navCtrl, httpService, data) {
         this.navCtrl = navCtrl;
         this.httpService = httpService;
         this.data = data;
         this.users = [];
-        this.asyncUsers = this.httpService.getData();
     }
     HomePage.prototype.ngOnInit = function () {
         this.drawMap();
         this.onGetData();
-        /*
-        this.data.load().subscribe(
-          res => this.users = res,
-          err => console.log(err),
-          () => this.do()
-        );
-        */
     };
     HomePage.prototype.drawMap = function () {
-        //let map = Leaflet.map('map');
         this.map = __WEBPACK_IMPORTED_MODULE_4_leaflet__["map"]('map', {
             center: [49.0000, 9.5000],
             zoom: 3
@@ -199,26 +191,16 @@ var HomePage = (function () {
             maxZoom: 6,
             minZoom: 3
         }).addTo(this.map);
-        //alert("hey!")
     };
     HomePage.prototype.onGetData = function () {
         var _this = this;
         this.httpService.getData()
             .subscribe(function (data) { return _this.users = data; }, function (err) { return console.log(err); }, function () { return _this.do(); });
     };
-    /*
-    loadPeople(){
-        this.httpService.getData()
-        .then(data => {
-          this.users = data;
-        });
-      }
-      */
     HomePage.prototype.do = function () {
         for (var _i = 0, _a = this.users; _i < _a.length; _i++) {
             var u = _a[_i];
             if (typeof u.location[0] !== 'undefined') {
-                //alert(u.location[0].lat + u.location[0].lng);
                 __WEBPACK_IMPORTED_MODULE_4_leaflet__["marker"]([u.location[0].lat, u.location[0].lng]).addTo(this.map);
             }
         }
@@ -421,45 +403,10 @@ var HttpService = (function () {
 }());
 HttpService = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["B" /* Injectable */])(),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_http__["b" /* Http */]])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_http__["b" /* Http */]) === "function" && _a || Object])
 ], HttpService);
 
-/*
-import { Http } from "@angular/http";
-import { Injectable } from "@angular/core";
-import 'rxjs/Rx';
-
-@Injectable()
-export class HttpService {
-
-  data: any;
-
-  constructor(private http: Http) {
-  }
-
-  load() {
-    if (this.data) {
-      // already loaded data
-      return Promise.resolve(this.data);
-    }
-
-    // don't have the data yet
-    return new Promise(resolve => {
-      // We're using Angular HTTP provider to request the data,
-      // then on the response, it'll map the JSON data to a parsed JS object.
-      // Next, we process the data and resolve the promise with the new data.
-      this.http.get('/api/user')
-        .map(res => res.json())
-        .subscribe(data => {
-          // we've got back the raw data, now generate the core schedule data
-          // and save the data for later reference
-          this.data = data;
-          resolve(this.data);
-        });
-    });
-  }
-}
-*/
+var _a;
 //# sourceMappingURL=http.service.js.map
 
 /***/ }),

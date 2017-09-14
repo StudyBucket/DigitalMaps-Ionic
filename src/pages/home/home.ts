@@ -15,26 +15,16 @@ export class HomePage implements OnInit {
 
 	map: any;
 	users: any = [];
-  asyncUsers = this.httpService.getData();
+  //asyncUsers = this.httpService.getData();
   
   constructor(public navCtrl: NavController, private httpService: HttpService, public data: Data) { }
 
   ngOnInit(): void {
     this.drawMap();
-    this.onGetData();
-    /*
-   	this.data.load().subscribe(
-      res => this.users = res,
-      err => console.log(err),
-      () => this.do()
-    );
-    */
-
-		
+    this.onGetData();	
   }
 
   drawMap(): void {
-    //let map = Leaflet.map('map');
     this.map = Leaflet.map('map', {
 		    center: [49.0000, 9.5000],
 		    zoom: 3
@@ -44,11 +34,6 @@ export class HomePage implements OnInit {
       maxZoom: 6,
       minZoom: 3
     }).addTo(this.map);
-
-		
-
-		
-		//alert("hey!")
   }
 
   onGetData() {
@@ -60,24 +45,12 @@ export class HomePage implements OnInit {
       );
   }
 
-  /*
-  loadPeople(){
-	  this.httpService.getData()
-	  .then(data => {
-	    this.users = data;
-	  });
-	}
-	*/
-
 	do(){
 		for(let u of this.users){
 			if (typeof u.location[0] !== 'undefined') {
-			  //alert(u.location[0].lat + u.location[0].lng);
 				Leaflet.marker([u.location[0].lat, u.location[0].lng]).addTo(this.map);
 			}
-			
 		}
 	}
-
 
 }
