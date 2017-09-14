@@ -28,4 +28,77 @@ export class HttpService {
         return returnArray;
       });
   }
+
+
+  getUsers() {
+    return this.http.get('/api/user')
+      .map((response: Response) => {
+        const data = response.json();
+        const returnArray = [];
+        for (let key in data) {
+          returnArray.push(data[key]);
+        }
+        return returnArray;
+      });
+  }
+
+  getEvents() {
+    return this.http.get('/api/event')
+      .map((response: Response) => {
+        const data = response.json();
+        const returnArray = [];
+        for (let key in data) {
+          returnArray.push(data[key]);
+        }
+        return returnArray;
+      });
+  }
+
+  getEventUsers(id) {
+    return this.http.get('/api/user/' + id + '/attended')
+      .map((response: Response) => {
+        const data = response.json();
+        const returnArray = [];
+        for (let key in data) {
+          returnArray.push(data[key]);
+        }
+        return returnArray;
+      });
+  }
+
+  getUserEvents(id) {
+    return this.http.get('/api/event/' + id + '/attendants')
+      .map((response: Response) => {
+        const data = response.json();
+        const returnArray = [];
+        for (let key in data) {
+          returnArray.push(data[key]);
+        }
+        return returnArray;
+      });
+  }
+
+  getUser(id) {
+    return this.http.get('/api/user/' + id)
+      .map((response: Response) => {
+        const data = response.json();
+        const returnArray = [];
+        for (let key in data) {
+          returnArray.push(data[key]);
+        }
+        return returnArray;
+      });
+  }
+
+  getEvent(id) {
+    return this.http.get('/api/event/' + id)
+      .map((response: Response) => {
+        const data = response.json();
+        const returnArray = [];
+        for (let key in data) {
+          returnArray.push(data[key]);
+        }
+        return returnArray;
+      });
+  }
 }

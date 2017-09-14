@@ -1,11 +1,18 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      About
+      Events
     </ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-
+<ion-content>
+  <ion-list>
+    <ion-list-header>Please select an event</ion-list-header>
+    <ion-list>
+      <button ion-item *ngFor="let event of events" (click)="eventSelected(event.id)">
+        {{ event.title }}
+      </button>  
+    </ion-list>
+  </ion-list>
 </ion-content>

@@ -2,26 +2,27 @@ import { Component, OnInit } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
 import { HttpService } from "../../http.service";
-import { Data } from '../../data';
 
 import * as Leaflet from 'leaflet';
  
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
-  providers: [HttpService, Data]
+  providers: [HttpService]
 })
 export class HomePage implements OnInit {
 
 	map: any;
 	users: any = [];
+	events: any = [];
   //asyncUsers = this.httpService.getData();
   
-  constructor(public navCtrl: NavController, private httpService: HttpService, public data: Data) { }
+  constructor(public navCtrl: NavController, private httpService: HttpService) { }
 
   ngOnInit(): void {
     this.drawMap();
-    this.onGetData();	
+    this.onGetUsers();	
+    this.onGetEvents();
   }
 
   drawMap(): void {
@@ -36,19 +37,46 @@ export class HomePage implements OnInit {
     }).addTo(this.map);
   }
 
-  onGetData() {
-    this.httpService.getData()
+  onGetUsers() {
+    this.httpService.getUsers()
       .subscribe(
         data => this.users = data,
         err => console.log(err),
-        () => this.do()
+        () => this.markUsers()
       );
   }
 
-	do(){
+  onGetEvents() {
+    this.httpService.getEvents()
+      .subscribe(
+        data => this.events = data,
+        err => console.log(err),
+        () => this.markEvents()
+      );
+  }
+
+	markUsers(){
 		for(let u of this.users){
 			if (typeof u.location[0] !== 'undefined') {
 				Leaflet.marker([u.location[0].lat, u.location[0].lng]).addTo(this.map);
+			}
+		}
+	}
+
+	markEvents(){
+		var redMarker = Leaflet.icon({
+		    iconUrl: 'assets/images/red-marker-icon.png',
+		    shadowUrl: 'assets/images/marker-shadow.png',
+		    iconSize:     [25, 41], // size of the icon
+		    shadowSize:   [50, 64], // size of the shadow
+		    iconAnchor:   [12.5, 41], // point of the icon which will correspond to marker's location
+		    shadowAnchor: [12.5, 62],  // the same for the shadow
+		    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+		});
+
+		for(let e of this.events){
+			if (typeof e.location[0] !== 'undefined') {
+				Leaflet.marker([e.location[0].lat, e.location[0].lng], {icon: redMarker}).addTo(this.map);
 			}
 		}
 	}
